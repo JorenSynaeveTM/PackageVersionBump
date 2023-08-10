@@ -20,7 +20,7 @@ jobs:
       - name: Get the current Version
         id: getCurrentVersion
         run: |
-          TAG="v$(cat package.json | grep '"version"' | cut -d ':' -f 2 | sed 's/"//g' | sed 's/\s\+//g')"
+          TAG="v$(cat package.json | grep '"version"' | cut -d ':' -f 2 | tr -d '"' | tr -d '[:space:]' | tr -d ',')"
           echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Bump the version
