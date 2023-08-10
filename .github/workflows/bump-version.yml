@@ -36,8 +36,8 @@ jobs:
 
       - name: Modify README.md
         run: |
-          # Update the version in the file
-          sed -i "s/\"version\": \"${{ steps.getCurrentVersion.outputs.tag }}\"/\"version\": \"${{ steps.bumpVersion.outputs.new_tag }}\"/" package.json
+          # Update the version in the package.json file
+          sed -i -e "s/\"version\": \".*\"/\"version\": \"${{ steps.bumpVersion.outputs.new_tag }}\"/" package.json
 
           # Make sure there is a newline at the end of the file
           sed -i -e '$a\' package.json
