@@ -49,8 +49,10 @@ jobs:
           echo "Config"
           git config user.name "JorenSynaeveTM"
           git config user.email "joren.synaeve@thomasmore.be"
+          echo "Add"
+          git add .
           echo "Commit"
-          git commit -am "Bump version to ${{ steps.bumpVersion.outputs.new_tag }} [skip ci]"
+          git commit m "Bump version to ${{ steps.bumpVersion.outputs.new_tag }}"
           echo "Push"
           git push
           echo "Done"
