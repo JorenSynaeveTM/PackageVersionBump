@@ -52,7 +52,7 @@ jobs:
           echo "Add"
           git add .
           echo "Commit"
-          git commit m "Bump version to ${{ steps.bumpVersion.outputs.new_tag }}"
+          git commit -m "Bump version to ${{ steps.bumpVersion.outputs.new_tag }}"
           echo "Push"
           git push
           echo "Done"
