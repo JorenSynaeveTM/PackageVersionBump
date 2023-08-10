@@ -42,8 +42,15 @@ jobs:
           # Make sure there is a newline at the end of the file
           sed -i -e '$a\' package.json
 
+          # Echo the contents of the package.json file
+          cat package.json
+
           # Commit and push changes
+          echo "Config"
           git config user.name "JorenSynaeveTM"
           git config user.email "joren.synaeve@thomasmore.be"
+          echo "Commit"
           git commit -am "Bump version to ${{ steps.bumpVersion.outputs.new_tag }} [skip ci]"
+          echo "Push"
           git push
+          echo "Done"
