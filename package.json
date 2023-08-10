@@ -1,6 +1,6 @@
 {
   "name": "npm-version-bump",
-  "version": "vv2.7.3",
+  "version": "v2.7.3",
   "description": "",
   "main": "index.js",
   "scripts": {
