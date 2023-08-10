@@ -34,8 +34,12 @@ jobs:
           echo "New tag: ${{ steps.bumpVersion.outputs.new_tag }}"
 
       - name: Modify README.md
-        uses: jaywcjlove/github-action-modify-file-content@main
-        with:
-          path: README.md
-          body: "overwrite file content {{date:YYYY-MM-DD HH:mm:ss}}"
-          overwrite: 'true'
+        run: |
+          # Update the version in the file
+          sed -i "s/\"version\": \"$current_version\"/\"version\": \"$new_version\"/" package.json
+
+          # Commit and push changes
+          git config user.name "JorenSynaeveTM"
+          git config user.email "joren.synaeve@thomasmore.be"
+          git commit -am "Bump version to $new_version [skip ci]"
+          git push
