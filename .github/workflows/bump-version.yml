@@ -47,8 +47,8 @@ jobs:
 
           # Commit and push changes
           echo "Config"
-          git config user.name "JorenSynaeveTM"
-          git config user.email "joren.synaeve@thomasmore.be"
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
           echo "Add"
           git add .
           echo "Commit"
