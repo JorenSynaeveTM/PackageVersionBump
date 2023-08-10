@@ -1,9 +1,11 @@
-name: "Bump Version"
+name: Bump version when tests are updated
 
 on:
   push:
     branches:
       - main
+    paths:
+      - src-tauri/resources/**
 
 jobs:
   bump-version:
@@ -11,21 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Checkout source code"
-        uses: "actions/checkout@v2"
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Get the current Version
+        id: getCurrentVersion
+        run: |
+          TAG="v$(cat package.json | grep '"version"' | cut -d ':' -f 2 | sed 's/"//g' | sed 's/\s\+//g')"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Bump the version
+        id: bumpVersion
+        run: |
+          NEW_TAG=$(echo ${{ steps.getCurrentVersion.outputs.tag }} | awk -F. -v OFS=. '{$NF=$NF+1; print}')
+          echo "new_tag=${NEW_TAG}" >> "$GITHUB_OUTPUT"
+          
+      - name: Print old and new tag
+        run: |
+          echo "Old tag: ${{ steps.getCurrentVersion.outputs.tag }}"
+          echo "New tag: ${{ steps.bumpVersion.outputs.new_tag }}"
+
+      - name: Modify README.md
+        uses: jaywcjlove/github-action-modify-file-content@main
         with:
-          ref: ${{ github.ref }}
-      - name: "cat package.json"
-        run: cat ./package.json
-      - name: "Setup Node.js"
-        uses: "actions/setup-node@v1"
-        with:
-          node-version: 12
-      - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
-        with:
-          tag-prefix: ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "cat package.json"
-        run: cat ./package.json
+          path: README.md
+          body: "overwrite file content {{date:YYYY-MM-DD HH:mm:ss}}"
+          overwrite: 'true'
